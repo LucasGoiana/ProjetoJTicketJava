@@ -32,7 +32,7 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public StatusDTO getStatusId(Integer id) {
-        var statusEntity = statusRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Perfil Não Encontrado"));
+        var statusEntity = statusRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Status Não Encontrado"));
         return StatusDTO.converter(statusEntity);
     }
 
