@@ -66,6 +66,12 @@ public class UserServiceImpl implements UserService {
         return UserDTO.converter(userEntity);
     }
 
+    @Override
+    public void deleteUser(Integer id) {
+        var bank = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Usuário não encontrado"));
+        userRepository.deleteById(id);
+    }
+
     public String makeSlug (String name, Integer id){
         return name.replace(' ', '-').toLowerCase(Locale.ROOT) + "-" + id;
     }

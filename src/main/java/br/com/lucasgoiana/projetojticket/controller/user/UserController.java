@@ -38,4 +38,10 @@ public class UserController {
     public UserDTO updateUser(@PathVariable Integer id,  @RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO){
         return userService.updateUser(id, userCreateOrUpdateDTO);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public String deleteUser(@PathVariable Integer id){
+        userService.deleteUser(id);
+        return "Deletado com sucesso";
+    }
 }
