@@ -28,7 +28,7 @@ public class ProfileController {
     }
 
     @PostMapping(value = "")
-    public ProfileDTO createBankOfBlood(@RequestBody ProfileCreateOrUpdateDTO profileCreateOrUpdateDTO){
+    public ProfileDTO createProfile(@RequestBody ProfileCreateOrUpdateDTO profileCreateOrUpdateDTO){
         return profileService.createProfile(profileCreateOrUpdateDTO);
 
     }
