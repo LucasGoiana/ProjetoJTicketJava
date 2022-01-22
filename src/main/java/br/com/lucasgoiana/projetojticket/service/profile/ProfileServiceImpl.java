@@ -2,7 +2,7 @@ package br.com.lucasgoiana.projetojticket.service.profile;
 
 import br.com.lucasgoiana.projetojticket.dto.profile.ProfileCreateOrUpdateDTO;
 import br.com.lucasgoiana.projetojticket.dto.profile.ProfileDTO;
-import br.com.lucasgoiana.projetojticket.entity.ProfileEntity;
+import br.com.lucasgoiana.projetojticket.entity.profile.ProfileEntity;
 import br.com.lucasgoiana.projetojticket.repository.profile.ProfileRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

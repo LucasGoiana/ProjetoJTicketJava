@@ -1,6 +1,6 @@
 package br.com.lucasgoiana.projetojticket.dto.profile;
 
-import br.com.lucasgoiana.projetojticket.entity.ProfileEntity;
+import br.com.lucasgoiana.projetojticket.entity.profile.ProfileEntity;
 import lombok.Getter;
 import lombok.Setter;
 

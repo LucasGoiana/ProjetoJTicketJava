@@ -1,4 +1,4 @@
-package br.com.lucasgoiana.projetojticket.entity;
+package br.com.lucasgoiana.projetojticket.entity.profile;
 
 import br.com.lucasgoiana.projetojticket.dto.profile.ProfileCreateOrUpdateDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
