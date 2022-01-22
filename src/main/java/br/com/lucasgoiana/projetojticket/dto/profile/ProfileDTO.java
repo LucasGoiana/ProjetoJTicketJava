@@ -9,14 +9,14 @@ import java.util.Date;
 @Getter
 @Setter
 public class ProfileDTO {
-    private Long id;
+    private Integer idProfile;
     private String name;
     private Date modifiedDate;
 
     public static ProfileDTO converter(ProfileEntity profileEntity) {
         var profileDTO = new ProfileDTO();
 
-        profileDTO.setId(profileEntity.getId());
+        profileDTO.setIdProfile(profileEntity.getIdProfile());
         profileDTO.setName(profileEntity.getName());
         profileDTO.setModifiedDate(profileEntity.getModifiedDate());
 
