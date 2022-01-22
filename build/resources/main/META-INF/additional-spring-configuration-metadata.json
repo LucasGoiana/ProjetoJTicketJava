@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "br.com.lucasgoiana.projetojticket.hibernate.strategy.CustomPhysicalNamingStrategy",
+      "type": "java.lang.String",
+      "description": "Description for br.com.lucasgoiana.projetojticket.hibernate.strategy."
+    },
+    {
+      "name": "br.com.lucasgoiana.projetojticket.hibernate.strategy",
+      "type": "java.lang.String",
+      "description": "Description for br.com.lucasgoiana.projetojticket.hibernate.strategy."
+    },
+    {
+      "name": "spring.hibernate.physical_naming_strategy",
+      "type": "java.lang.String",
+      "description": "Description for spring.hibernate.physical_naming_strategy."
+    },
+    {
+      "name": "hibernate.physical_naming_strategy",
+      "type": "java.lang.String",
+      "description": "Description for hibernate.physical_naming_strategy."
+    }
+  ] }
