@@ -2,6 +2,10 @@ package br.com.lucasgoiana.projetojticket.entity.ticket;
 
 import br.com.lucasgoiana.projetojticket.dto.ticket.TicketCreateOrUpdateDTO;
 import br.com.lucasgoiana.projetojticket.dto.user.UserCreateOrUpdateDTO;
+import br.com.lucasgoiana.projetojticket.entity.profile.ProfileEntity;
+import br.com.lucasgoiana.projetojticket.entity.status.StatusEntity;
+import br.com.lucasgoiana.projetojticket.entity.user.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="ticket")
 public class TicketEntity {
@@ -20,10 +25,14 @@ public class TicketEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="idTicket", unique = true)
     private Integer idTicket;
-    private Integer idUser;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idUser")
+    private UserEntity userEntity;
 
-    private Integer idStatus;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "idStatus")
+    private StatusEntity statusEntity;
     private String title;
     private String description;
     private String slug;
@@ -31,8 +40,6 @@ public class TicketEntity {
     private Date modifiedDate;
 
     public TicketEntity(TicketCreateOrUpdateDTO ticketCreateOrUpdateDTO) {
-        this.idUser = ticketCreateOrUpdateDTO.getIdUser();
-        this.idStatus = ticketCreateOrUpdateDTO.getIdStatus();
         this.title = ticketCreateOrUpdateDTO.getTitle();
         this.description = ticketCreateOrUpdateDTO.getDescription();
         this.slug = ticketCreateOrUpdateDTO.getSlug();
