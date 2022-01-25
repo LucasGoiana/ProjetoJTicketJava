@@ -5,7 +5,9 @@ import br.com.lucasgoiana.projetojticket.dto.status.StatusCreateDTO;
 import br.com.lucasgoiana.projetojticket.service.status.StatusService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("status")
@@ -28,8 +30,12 @@ public class StatusController {
     }
 
     @PostMapping(value = "")
-    public StatusDTO createStatus(@RequestBody StatusCreateDTO profileCreateDTO){
-        return statusService.createStatus(profileCreateDTO);
+    public Map<String, String> createStatus(@RequestBody StatusCreateDTO profileCreateDTO){
+       statusService.createStatus(profileCreateDTO);
+       HashMap<String, String> map = new HashMap<>();
+       map.put("msg", "Cadastrado com Sucesso!");
+
+       return map;
 
     }
 }

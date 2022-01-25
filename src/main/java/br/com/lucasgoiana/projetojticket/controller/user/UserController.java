@@ -1,13 +1,14 @@
 package br.com.lucasgoiana.projetojticket.controller.user;
 
-import br.com.lucasgoiana.projetojticket.dto.status.StatusCreateDTO;
-import br.com.lucasgoiana.projetojticket.dto.status.StatusDTO;
 import br.com.lucasgoiana.projetojticket.dto.user.UserCreateOrUpdateDTO;
 import br.com.lucasgoiana.projetojticket.dto.user.UserDTO;
 import br.com.lucasgoiana.projetojticket.service.user.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("usuario")
@@ -30,18 +31,30 @@ public class UserController {
     }
 
     @PostMapping(value = "")
-    public UserDTO createUser(@RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO){
-        return userService.createUser(userCreateOrUpdateDTO);
+    public Map<String, String> createUser(@RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException {
+      userService.createUser(userCreateOrUpdateDTO);
+      HashMap<String, String> map = new HashMap<>();
+      map.put("msg", "Cadastrado com Sucesso!");
+
+      return map;
+
     }
 
     @PutMapping(value = "/{id}")
-    public UserDTO updateUser(@PathVariable Integer id,  @RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO){
-        return userService.updateUser(id, userCreateOrUpdateDTO);
+    public Map<String, String>  updateUser(@PathVariable Integer id,  @RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException {
+        userService.updateUser(id, userCreateOrUpdateDTO);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("msg", "Editado com Sucesso!");
+
+        return map;
     }
 
     @DeleteMapping(value = "/{id}")
-    public String deleteUser(@PathVariable Integer id){
+    public  Map<String, String>  deleteUser(@PathVariable Integer id){
         userService.deleteUser(id);
-        return "Deletado com sucesso";
+        HashMap<String, String> map = new HashMap<>();
+        map.put("msg", "Usuário foi com Sucesso!");
+
+        return map;
     }
 }
