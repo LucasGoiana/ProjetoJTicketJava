@@ -18,13 +18,4 @@ public class UserCreateOrUpdateDTO {
         private String password;
         private String slug;
 
-        public static UserDTO converter(UserEntity userEntity) {
-                var userDTO = new UserDTO();
-
-                userDTO.setProfile(userEntity.getProfileEntity().getName());
-                userDTO.setEmail(userEntity.getEmail());
-
-                return userDTO;
-        }
-
 }

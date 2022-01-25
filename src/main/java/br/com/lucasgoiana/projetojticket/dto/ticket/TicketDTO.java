@@ -12,7 +12,8 @@ import java.util.Date;
 public class TicketDTO {
 
     private Integer idTicket;
-    private Integer idUser;
+    private String user;
+    private String status;
     private String title;
     private String description;
     private String slug;
@@ -24,7 +25,8 @@ public class TicketDTO {
         var ticketDTO = new TicketDTO();
 
         ticketDTO.setIdTicket(ticketEntity.getIdTicket());
-        ticketDTO.setIdUser(ticketEntity.getIdUser());
+        ticketDTO.setUser(ticketEntity.getUserEntity().getName());
+        ticketDTO.setStatus(ticketEntity.getStatusEntity().getName());
         ticketDTO.setTitle(ticketEntity.getTitle());
         ticketDTO.setDescription(ticketEntity.getDescription());
         ticketDTO.setSlug(ticketEntity.getSlug());
