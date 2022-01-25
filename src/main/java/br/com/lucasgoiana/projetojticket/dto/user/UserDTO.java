@@ -1,7 +1,5 @@
 package br.com.lucasgoiana.projetojticket.dto.user;
 
-import br.com.lucasgoiana.projetojticket.dto.status.StatusDTO;
-import br.com.lucasgoiana.projetojticket.entity.status.StatusEntity;
 import br.com.lucasgoiana.projetojticket.entity.user.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +11,7 @@ import java.util.Date;
 public class UserDTO {
 
     private Integer idUser;
-    private Integer idProfile;
+    private String profile;
     private String name;
     private String email;
     private String password;
@@ -24,7 +22,7 @@ public class UserDTO {
         var userDTO = new UserDTO();
 
         userDTO.setIdUser(userEntity.getIdUser());
-        userDTO.setIdProfile(userEntity.getIdProfile());
+        userDTO.setProfile(userEntity.getProfileEntity().getName());
         userDTO.setName(userEntity.getName());
         userDTO.setEmail(userEntity.getEmail());
         userDTO.setPassword(userEntity.getPassword());
