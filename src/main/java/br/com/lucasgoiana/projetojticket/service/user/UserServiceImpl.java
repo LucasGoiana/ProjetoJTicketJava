@@ -4,6 +4,7 @@ import br.com.lucasgoiana.projetojticket.dto.user.UserCreateOrUpdateDTO;
 import br.com.lucasgoiana.projetojticket.dto.user.UserDTO;
 import br.com.lucasgoiana.projetojticket.entity.user.UserEntity;
 import br.com.lucasgoiana.projetojticket.repository.profile.ProfileRepository;
+import br.com.lucasgoiana.projetojticket.repository.ticket.TicketRepository;
 import br.com.lucasgoiana.projetojticket.repository.user.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
+    private final TicketRepository ticketRepository;
 
-    public UserServiceImpl(UserRepository userRepository, ProfileRepository profileRepository) {
+    public UserServiceImpl(UserRepository userRepository, ProfileRepository profileRepository, TicketRepository ticketRepository) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @Override
@@ -41,10 +44,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO createUser(UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException {
+    public Boolean createUser(UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException {
         var id = userRepository.findAllAtivas();
         var idProfile = profileRepository.findById(userCreateOrUpdateDTO.getIdProfile()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não Encontrado"));
         var idInt = Integer.parseInt(id) + 1;
+        var emailSend = userCreateOrUpdateDTO.getEmail();
+
+        if(Boolean.TRUE.equals(validateEmail(emailSend))){
+            return false;
+        }
 
         UserEntity userEntity = new UserEntity(userCreateOrUpdateDTO);
         userEntity.setProfileEntity(idProfile);
@@ -52,29 +60,41 @@ public class UserServiceImpl implements UserService {
         userEntity.setSlug(makeSlug(userCreateOrUpdateDTO.getName(), idInt));
         userEntity.setModifiedDate(new Date());
         userEntity = userRepository.save(userEntity);
-        return UserDTO.converter(userEntity);
 
+        return true;
 
     }
-
+    private Boolean validateEmail(String email){
+       var qtd =  Integer.parseInt(userRepository.email(email));
+       return qtd >= 1;
+    }
     @Override
-    public UserDTO updateUser(Integer id, UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException {
+    public Boolean updateUser(Integer id, UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException {
         var user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+        var emailSend = userCreateOrUpdateDTO.getEmail();
+        var idProfile = profileRepository.findById(userCreateOrUpdateDTO.getIdProfile()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não Encontrado"));
+        if(Boolean.TRUE.equals(validateEmail(emailSend))){
+            return false;
+        }
+
         UserEntity userEntity = new UserEntity(userCreateOrUpdateDTO);
         userEntity.setIdUser(id);
         userEntity.setName(userCreateOrUpdateDTO.getName());
+        userEntity.setProfileEntity(idProfile);
         userEntity.setEmail(userCreateOrUpdateDTO.getEmail());
         userEntity.setPassword(md5(userCreateOrUpdateDTO.getPassword()));
         userEntity.setSlug(makeSlug(userCreateOrUpdateDTO.getName(), id));
         userEntity.setModifiedDate(new Date());
         userEntity = userRepository.save(userEntity);
 
-        return UserDTO.converter(userEntity);
+        return true;
     }
 
     @Override
     public void deleteUser(Integer id) {
-        var bank = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+        var user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+        System.out.println(user.getIdUser());
+        ticketRepository.deleteIdUser(user.getIdUser());
         userRepository.deleteById(id);
     }
 

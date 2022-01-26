@@ -2,8 +2,7 @@ package br.com.lucasgoiana.projetojticket.service.ticket;
 
 import br.com.lucasgoiana.projetojticket.dto.ticket.TicketCreateOrUpdateDTO;
 import br.com.lucasgoiana.projetojticket.dto.ticket.TicketDTO;
-import br.com.lucasgoiana.projetojticket.dto.user.UserCreateOrUpdateDTO;
-import br.com.lucasgoiana.projetojticket.dto.user.UserDTO;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public interface TicketService {
 
     TicketDTO updateTicket(Integer id, TicketCreateOrUpdateDTO ticketCreateOrUpdateDTO);
 
-    TicketDTO updateTicketByStatus(Integer id, Integer idStatus);
+    TicketDTO updateTicketByStatus(Integer id, Integer idStatus, JavaMailSender mailSender);
 
     void deleteTicket(Integer id);
 
