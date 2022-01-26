@@ -15,9 +15,9 @@ public interface UserService {
 
     UserDTO getUserId(Integer id);
 
-    UserDTO createUser(UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException;
+    Boolean createUser(UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException;
 
-    UserDTO updateUser(Integer id, UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException;
+    Boolean updateUser(Integer id, UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException;
 
     void deleteUser(Integer id);
 }

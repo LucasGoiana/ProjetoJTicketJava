@@ -1,6 +1,7 @@
 package br.com.lucasgoiana.projetojticket.entity.ticket;
 
 import br.com.lucasgoiana.projetojticket.dto.ticket.TicketCreateOrUpdateDTO;
+import br.com.lucasgoiana.projetojticket.dto.ticket.TicketUpdateStatusDTO;
 import br.com.lucasgoiana.projetojticket.dto.user.UserCreateOrUpdateDTO;
 import br.com.lucasgoiana.projetojticket.entity.profile.ProfileEntity;
 import br.com.lucasgoiana.projetojticket.entity.status.StatusEntity;
@@ -43,6 +44,12 @@ public class TicketEntity {
         this.title = ticketCreateOrUpdateDTO.getTitle();
         this.description = ticketCreateOrUpdateDTO.getDescription();
         this.slug = ticketCreateOrUpdateDTO.getSlug();
+    }
+
+    public TicketEntity(Integer id, Date date, StatusEntity statusEntity) {
+        this.idTicket = id;
+        this.modifiedDate = date;
+        this.setStatusEntity(statusEntity);
     }
 }
 

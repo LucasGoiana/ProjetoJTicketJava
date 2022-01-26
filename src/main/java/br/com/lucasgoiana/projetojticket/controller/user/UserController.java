@@ -32,20 +32,31 @@ public class UserController {
 
     @PostMapping(value = "")
     public Map<String, String> createUser(@RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException {
-      userService.createUser(userCreateOrUpdateDTO);
+      var emailRepeated= userService.createUser(userCreateOrUpdateDTO);
       HashMap<String, String> map = new HashMap<>();
-      map.put("msg", "Cadastrado com Sucesso!");
 
-      return map;
+      if(!emailRepeated){
+          map.put("msg", "Email já Cadastrado!!");
+          return map;
+      }
+
+        map.put("msg", "Cadastrado com Sucesso!");
+        return map;
+
 
     }
 
     @PutMapping(value = "/{id}")
     public Map<String, String>  updateUser(@PathVariable Integer id,  @RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO) throws NoSuchAlgorithmException {
-        userService.updateUser(id, userCreateOrUpdateDTO);
+        var emailRepeated = userService.updateUser(id, userCreateOrUpdateDTO);
         HashMap<String, String> map = new HashMap<>();
-        map.put("msg", "Editado com Sucesso!");
+        if(!emailRepeated){
+            map.put("msg", "Email já Cadastrado!!");
+            return map;
+        }
 
+
+        map.put("msg", "Editado com Sucesso!");
         return map;
     }
 
@@ -53,7 +64,7 @@ public class UserController {
     public  Map<String, String>  deleteUser(@PathVariable Integer id){
         userService.deleteUser(id);
         HashMap<String, String> map = new HashMap<>();
-        map.put("msg", "Usuário foi com Sucesso!");
+        map.put("msg", "Usuário foi Deletado com Sucesso!");
 
         return map;
     }

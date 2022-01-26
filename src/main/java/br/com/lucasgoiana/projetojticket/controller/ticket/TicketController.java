@@ -4,6 +4,8 @@ import br.com.lucasgoiana.projetojticket.dto.ticket.TicketCreateOrUpdateDTO;
 import br.com.lucasgoiana.projetojticket.dto.ticket.TicketDTO;
 import br.com.lucasgoiana.projetojticket.service.status.StatusService;
 import br.com.lucasgoiana.projetojticket.service.ticket.TicketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -13,7 +15,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("ticket")
 public class TicketController {
-
+    @Autowired
+    private JavaMailSender mailSender;
     private final TicketService ticketService;
 
     public TicketController(TicketService ticketService) {
@@ -51,7 +54,7 @@ public class TicketController {
 
     @PutMapping(value = "/{id}/status/{idStatus}")
     public Map<String, String>  updateTicketByStatus(@PathVariable Integer id, @PathVariable Integer idStatus){
-       ticketService.updateTicketByStatus(id, idStatus);
+       ticketService.updateTicketByStatus(id, idStatus, mailSender);
        HashMap<String, String> map = new HashMap<>();
        map.put("msg", "Editado com Sucesso!");
 

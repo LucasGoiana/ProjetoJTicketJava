@@ -1,5 +1,6 @@
 package br.com.lucasgoiana.projetojticket.service.ticket;
 
+import br.com.lucasgoiana.projetojticket.client.SendEmail;
 import br.com.lucasgoiana.projetojticket.dto.ticket.TicketCreateOrUpdateDTO;
 import br.com.lucasgoiana.projetojticket.dto.ticket.TicketDTO;
 import br.com.lucasgoiana.projetojticket.entity.ticket.TicketEntity;
@@ -7,6 +8,7 @@ import br.com.lucasgoiana.projetojticket.repository.status.StatusRepository;
 import br.com.lucasgoiana.projetojticket.repository.ticket.TicketRepository;
 import br.com.lucasgoiana.projetojticket.repository.user.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -49,7 +51,9 @@ public class TicketServiceImpl implements TicketService {
         var user = userRepository.findById(ticketCreateOrUpdateDTO.getIdUser()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Usuario não encontrado"));
 
         TicketEntity ticketEntity = new TicketEntity(ticketCreateOrUpdateDTO);
-
+        ticketEntity.setIdTicket(idInt);
+        ticketEntity.setTitle(ticketCreateOrUpdateDTO.getTitle());
+        ticketEntity.setDescription(ticketCreateOrUpdateDTO.getDescription());
         ticketEntity.setUserEntity(user);
         ticketEntity.setStatusEntity(status);
         ticketEntity.setSlug(makeSlug(ticketCreateOrUpdateDTO.getTitle(), idInt));
@@ -74,21 +78,32 @@ public class TicketServiceImpl implements TicketService {
         ticketEntity.setDescription(ticketCreateOrUpdateDTO.getDescription());
         ticketEntity.setTitle(ticketCreateOrUpdateDTO.getTitle());
         ticketEntity.setSlug(makeSlug(ticketCreateOrUpdateDTO.getTitle(), id));
+        ticketEntity.setCreatedDate(ticket.getCreatedDate());
         ticketEntity.setModifiedDate(new Date());
         ticketEntity = ticketRepository.save(ticketEntity);
         return TicketDTO.converter(ticketEntity);
     }
 
     @Override
-    public TicketDTO updateTicketByStatus(Integer id, Integer idStatus) {
+    public TicketDTO updateTicketByStatus(Integer id, Integer idStatus, JavaMailSender mailSender) {
         var ticket = ticketRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket Não Encontrado"));
         var status = statusRepository.findById(idStatus).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Status não encontrado"));
 
-
-        TicketEntity ticketEntity = new TicketEntity();
+        TicketEntity ticketEntity = new TicketEntity(id, new Date(), status);
         ticketEntity.setIdTicket(id);
+        ticketEntity.setUserEntity(ticket.getUserEntity());
+
+        SendEmail email = new SendEmail();
+        email.sendEmail(id, ticket.getTitle(), status.getName(), mailSender);
+
         ticketEntity.setStatusEntity(status);
+        ticketEntity.setTitle(ticket.getTitle());
+        ticketEntity.setCreatedDate(ticket.getCreatedDate());
+        ticketEntity.setSlug(ticket.getSlug());
+        ticketEntity.setDescription(ticket.getDescription());
         ticketEntity.setModifiedDate(new Date());
+        ticketEntity = ticketRepository.save(ticketEntity);
+
         return TicketDTO.converter(ticketEntity);
     }
 

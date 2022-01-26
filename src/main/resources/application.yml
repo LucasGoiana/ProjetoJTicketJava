@@ -16,3 +16,18 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
+  mail:
+    host: email-ssl.com.br
+    port: 465
+    username: EMAILAQUI
+    password: SENHAAQUI
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enable: true
+    test-connection: true
